@@ -1,0 +1,34 @@
+{
+    "name": "GameSection",
+    "type": "object",
+    "properties": {
+      "title": {
+        "type": "string",
+        "description": "Section title"
+      },
+      "content": {
+        "type": "string",
+        "description": "Section content in markdown"
+      },
+      "category": {
+        "type": "string",
+        "enum": [
+          "rules",
+          "characters",
+          "cards",
+          "setup",
+          "objectives"
+        ],
+        "description": "Section category"
+      },
+      "order": {
+        "type": "number",
+        "description": "Display order"
+      }
+    },
+    "required": [
+      "title",
+      "content",
+      "category"
+    ]
+  }
