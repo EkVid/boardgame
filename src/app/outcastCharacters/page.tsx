@@ -33,7 +33,7 @@ const characters = [
     passiveName1: 'MasterCraft:',
     passive1: "If the architect is in the game (not in coma or eliminated), then all the building costs are reduced by 1 including traps, excluding repairs",
     abilityName1: "Fortify",
-    ability1: "Can instantly build a wall in current space every 3 turns (does not satisfy objectives).",
+    ability1: "Can instantly build a wall in current space (does not satisfy objectives).",
     coolDown1: 3,
     drawbackName1: "Stubborn Pride",
     drawback1: "Won't accept help from others - cannot participate in objectives that require more than 1 person",
