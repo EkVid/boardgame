@@ -5,8 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import {
-  Sword,
-  Shield,
+  Info,
   Users,
   Clock,
   Zap,
@@ -43,7 +42,7 @@ const wardenCards: CardItem[] = [
   },
   {
     name: "Hunter's Roar",
-    description: "All objectives that are in progress will be disrupted",
+    description: "All Outcasts' objectives that are in progress will be disrupted",
     cooldown: "4 turns",
     type: "disruption",
     color: "purple"
@@ -64,7 +63,7 @@ const wardenCards: CardItem[] = [
   },
   {
     name: "Fallen Angel",
-    description: "The Warden's HP will not fall below 1 until the warden's next end of turn. Can only be used once per game",
+    description: "The Warden's HP will not fall below 1 until the end of its next turn.",
     cooldown: "Once per game",
     type: "special",
     color: "orange"
@@ -92,7 +91,7 @@ const wardenObjectives: CardItem[] = [
   },
   {
     name: "Bloodthirst",
-    description: "Down 2 outcasts at the same time",
+    description: "Put a total of 2 outcasts into coma state in the game",
     type: "combat",
     color: "red"
   },
@@ -105,7 +104,7 @@ const wardenObjectives: CardItem[] = [
   {
     name: "Battle Scars",
     description: "Take 2 or more total damage from Outcasts",
-    type: "survival",
+    type: "defense",
     color: "gray"
   }
 ];
@@ -183,9 +182,9 @@ export default function Cards() {
   const [selectedCard, setSelectedCard] = useState<number | null>(null);
 
   const tabs = [
-    { key: "warden-cards", label: "Warden Cards", icon: Crown, data: wardenCards },
-    { key: "warden-objectives", label: "Warden Objectives", icon: Target, data: wardenObjectives },
-    { key: "outcast-items", label: "Outcast Items", icon: Users, data: outcastItems }
+    { key: "warden-cards", label: "Power Cards", icon: Crown, data: wardenCards },
+    { key: "warden-objectives", label: "Evolution Cards", icon: Target, data: wardenObjectives },
+    // { key: "outcast-items", label: "Outcast Items", icon: Users, data: outcastItems }
   ];
 
   const currentData = tabs.find(tab => tab.key === activeTab)?.data || [];
@@ -202,10 +201,13 @@ export default function Cards() {
           transition={{ duration: 0.6 }}
         >
           <h1 className="text-4xl lg:text-5xl font-bold bg-gradient-to-r from-purple-300 to-pink-400 bg-clip-text text-transparent">
-            Cards Reference
+            Warden's Power & Evolution Cards
           </h1>
           <p className="text-xl text-gray-200 max-w-3xl mx-auto">
-            Complete reference for all Warden cards, objectives, and Outcast items. Master these to dominate the game.
+            Reference for all Warden's Power and Evolution Cards
+          </p>
+          <p className="text-xl text-gray-200 max-w-3xl mx-auto">
+            Complete Evolution Cards to upgrade abilities and use Power Card Ability to help you in the game
           </p>
         </motion.div>
 
@@ -305,23 +307,12 @@ export default function Cards() {
                         </div>
                       )}
 
-                      {activeTab === "warden-cards" && item.name === "Fallen Angel" && (
-                        <div className="bg-orange-500/10 border border-orange-400/30 p-3 rounded-lg">
-                          <div className="flex items-center gap-2 mb-2">
-                            <Skull className="w-4 h-4 text-orange-300" />
-                            <span className="text-sm font-semibold text-orange-300">Ultimate Ability</span>
-                          </div>
-                          <p className="text-xs text-gray-200">Can only be used once per game</p>
-                        </div>
-                      )}
-
                       <div className="text-center pt-2">
                         <motion.p
                           className="text-xs text-gray-400"
                           animate={{ opacity: [0.5, 1, 0.5] }}
                           transition={{ repeat: Infinity, duration: 2 }}
                         >
-                          {isSelected ? 'Click to collapse' : 'Click for details'}
                         </motion.p>
                       </div>
                     </CardContent>
@@ -346,41 +337,48 @@ export default function Cards() {
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="grid md:grid-cols-3 gap-6">
+              <div className="grid md:grid-cols-2 gap-6">
                 <div className="space-y-3">
                   <h3 className="text-lg font-semibold text-white flex items-center gap-2">
                     <Crown className="w-5 h-5 text-red-300" />
-                    Warden Cards
+                    Power Cards
                   </h3>
                   <ul className="space-y-2 text-sm text-gray-200">
-                    <li>• <span className="text-red-300 font-semibold">Save ultimates:</span> Use Fallen Angel only in critical moments</li>
-                    <li>• <span className="text-red-300 font-semibold">Timing matters:</span> Use Hunter's Roar to disrupt key objectives</li>
-                    <li>• <span className="text-red-300 font-semibold">Combo potential:</span> Combine movement and combat abilities</li>
+                    <li>• <span className="text-red-300 font-semibold">First Power Card:</span> Choose the first Power Card Ability wisely based on the Outcasts' team composition</li>
+                    <li>• <span className="text-red-300 font-semibold">Combo potential:</span> Combine movement and combat abilities have good impact</li>
+                    <li>• <span className="text-red-300 font-semibold">Additional Power Card:</span> Getting new Power Card Ability can be really helpful sometimes</li>
                   </ul>
                 </div>
                 <div className="space-y-3">
                   <h3 className="text-lg font-semibold text-white flex items-center gap-2">
                     <Target className="w-5 h-5 text-blue-300" />
-                    Warden Objectives
+                    Evolution Cards
                   </h3>
                   <ul className="space-y-2 text-sm text-gray-200">
-                    <li>• <span className="text-blue-300 font-semibold">Evolution fuel:</span> Complete objectives to unlock evolutions</li>
-                    <li>• <span className="text-blue-300 font-semibold">Multiple paths:</span> Focus on achievable objectives first</li>
-                    <li>• <span className="text-blue-300 font-semibold">Pressure tactics:</span> Use objectives to control outcast behavior</li>
-                  </ul>
-                </div>
-                <div className="space-y-3">
-                  <h3 className="text-lg font-semibold text-white flex items-center gap-2">
-                    <Users className="w-5 h-5 text-emerald-300" />
-                    Outcast Items
-                  </h3>
-                  <ul className="space-y-2 text-sm text-gray-200">
-                    <li>• <span className="text-emerald-300 font-semibold">Share wisely:</span> Distribute items based on character abilities</li>
-                    <li>• <span className="text-emerald-300 font-semibold">Emergency reserves:</span> Save healing items for critical moments</li>
-                    <li>• <span className="text-emerald-300 font-semibold">Combo planning:</span> Coordinate item use for maximum effect</li>
+                    <li>• <span className="text-blue-300 font-semibold">Multiple Paths:</span> Focus on achievable ones first to upgrade abilities</li>
+                    <li>• <span className="text-blue-300 font-semibold">Plan Wisely:</span>The difficulty of completing certain cards varies depending on the Warden's character</li>
                   </ul>
                 </div>
               </div>
+            </CardContent>
+          </Card>
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.8, duration: 0.6 }}
+        >
+          <Card className="bg-yellow-900/20 border-yellow-600/30 backdrop-blur-sm">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-3 text-2xl text-yellow-400">
+                <Info className="w-6 h-6" />
+                Next Step
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <p className="text-gray-300">
+                Now that you’ve learned what Power & Evolution Cards there are for the Warden, you can move on to the <a href="/outcastCharacters"><span className="text-yellow-400 font-semibold">Outcasts' Characters</span></a> section
+              </p>
             </CardContent>
           </Card>
         </motion.div>

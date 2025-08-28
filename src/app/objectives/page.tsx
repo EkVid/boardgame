@@ -365,7 +365,7 @@ export default function Objectives() {
             </CardHeader>
             <CardContent className="space-y-3">
               <p className="text-gray-300">
-                Now that you’ve learned what objectives need to be completed by the Outcasts in the game, you can move on to the <a href="/card"><span className="text-yellow-400 font-semibold">Power & Evolution Card</span></a> section
+                Now that you’ve learned what objectives need to be completed by the Outcasts in the game, you can move on to the <a href="/resourceItem"><span className="text-yellow-400 font-semibold">Resources & Items</span></a> section
               </p>
             </CardContent>
           </Card>

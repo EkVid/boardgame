@@ -12,6 +12,7 @@ import {
   Zap,
   AlertTriangle,
   Hammer,
+  Info,
   Shuffle,
   Activity,
   ShoppingBag,
@@ -28,10 +29,16 @@ const characters = [
     hp: 2,
     resources: 4,
     items: 0,
-    description: "A tormented soul who built the prison's cursed infrastructure. Master of dark construction, but haunted by fears of heights and shadows.",
-    passive: "Cursed Mastery: If the Architect survives (not down or dead), all construction costs are reduced by 1, including traps, excluding repairs.",
-    ability: "Shadow Fortify: Can instantly manifest a wall in current space through dark magic every 3 turns (does not satisfy objectives).",
-    drawback: "Stubborn Pride: Won't accept help from others - cannot participate in multi-person objectives. Phobias: Cannot ascend towers or descend underground.",
+    description: "A highly skilled architect that knows how to build effectively, but he is stubborn and scared of height and darkness",
+    passiveName1: 'MasterCraft:',
+    passive1: "If the architect is in the game (not in coma or eliminated), then all the building costs are reduced by 1 including traps, excluding repairs",
+    abilityName1: "Fortify",
+    ability1: "Can instantly build a wall in current space every 3 turns (does not satisfy objectives).",
+    coolDown1: 3,
+    drawbackName1: "Stubborn Pride",
+    drawback1: "Won't accept help from others - cannot participate in objectives that require more than 1 person",
+    drawbackName2: "Phobias",
+    drawback2: "Cannot climb to the top of towers or go underground",
     color: "orange",
   },
   {
@@ -40,10 +47,14 @@ const characters = [
     hp: 2,
     resources: 2,
     items: 2,
-    description: "A cunning deceiver who manipulates reality itself. Other souls can never be certain if they're being helped or manipulated for darker purposes.",
-    passive: "Reality Distortion: When attacked by the Warden, flip a coin: success = normal hit; failure = attack phases through illusion.",
-    ability: "Phantom Switch: Instantly swap places with another soul within 2 spaces, phasing through all obstacles. Can swap with unconscious allies. Refreshes if ending near Warden. Cooldown: 3 turns.",
-    drawback: "Chaos Bringer: Delights in cosmic jokes - all objectives take +1 extra turn when this soul participates.",
+    description: "A manipulator who thrives on deception and misdirection. Outcasts can never be fully sure whether he’s helping or just playing his own game",
+    passiveName1: "Misdirection",
+    passive1: "Whenever the Trickster is attacked by the hunter, the hunter must flip a coin: on success, the attack hits as normal; on failure, the Trickster dodges ",
+    abilityName1: "Switcheroo",
+    ability1: "Instantly swap places with another Outcast within 2 spaces, phasing through all obstacles. Can swap with Outcast in coma. Refreshes immediately if the new position after swapping is within 1 space to the Warden",
+    coolDown1: 3,
+    drawbackName1: "Mischief Maker",
+    drawback1: "The Trickster enjoys playing tricks and is terrible at focusing. Whenever the Trickster participates in completing an objective, it takes +1 extra turn to finish",
     color: "purple",
   },
   {
@@ -52,31 +63,46 @@ const characters = [
     hp: 2,
     resources: 3,
     items: 1,
-    description: "A former healer whose Hippocratic oath binds them even in this cursed realm. Carries forbidden medical knowledge but refuses violence.",
-    passive: "Healing Aura: All souls can heal each other from 1 space away. Soul Mender: Souls revived by the Medic return with 1.5 HP instead of 1.",
-    ability: "Life Force Transfer: Instantly restore 1 HP to self or another soul in same space through blood magic. Cooldown: 2 turns.",
-    drawback: "Sacred Vows: Cannot carry offensive items or set lethal traps. Fragile Soul: All damage from Warden has x1.25 effect.",
+    description: "A trained professiontal who carries scraps of medical knowledge and supplies, but bad at fighting",
+    passiveName1: "Healer",
+    passive1: "All Outcasts can heal each other from 1 space away instead of in the same space",
+    passiveName2: "Doctor",
+    passive2: "Outcasts revived by the Medic return with 1.5 HP instead of 1",
+    abilityName1: "Emergency Patch",
+    ability1: "Instantly restore 1 HP to self or another Outcast in the same space",
+    coolDown1: 2,
+    drawbackName1: "Pacifist",
+    drawback1: "Cannot carry offensive items or set traps",
+    drawbackName2: "Fragile Soul",
+    drawback2: "All damage from Warden has x1.25 effect",
     color: "green",
   },
   {
-    name: "The Shadow Thief",
+    name: "Thief",
     icon: ShoppingBag,
     hp: 1,
     resources: 3,
     items: 1,
-    description: "A phantom burglar who exists partially in shadow. Swift to vanish but cursed with uncontrollable kleptomania that breeds mistrust.",
-    passive: "Shadow Fingers: When collecting resources, may steal +1 additional resource of the same type from the void.",
-    ability: "Smoke Veil: Dissolve into shadows and rematerialize up to 2 spaces away. Cannot pass through solid barriers or blood rivers. Cooldown: 1 turn.",
-    drawback: "Cursed Reputation: Reviving/healing with this soul takes extra time. Compulsive Theft: Must steal resource/item when sharing space with others. Cannot give/exchange items willingly.",
+    description: "A nimble outlaw who relies on speed and cunning to survive. Quick to slip away, but selfish habits make them hard to trust",
+    passiveName1: "Pickpocket",
+    passive1: "When collecting resources, may collect +1 additional resource of the same type",
+    abilityName1: "Smoke Bomb",
+    ability1: "Immediately move up to 2 spaces in any direction. Cannot cross objects or rive",
+    coolDown1: 1,
+    drawbackName1: "Suspicious Reputation",
+    drawback1: "Reviving/healing with thief takes an extra turn",
+    drawbackName2: "Greedy Hands",
+    drawback2: "Whenever the Thief moves into a space with other Outcasts, he must steal a resource / item from all Oucasts in that space. And he cannot give/exchange items/resource",
     color: "gray",
   },
   {
-    name: "The Fallen Hunter",
+    name: "Hunter",
     icon: Target,
     hp: 4,
     resources: 1,
     items: 3,
-    description: "A vengeful marksman seeking redemption through combat. Possesses supernatural aim and endurance but moves with the weight of their sins.",
+    description: "An expert tracker who relies on hunting preys to survive. Have sharp shooting skills and good strength, but moves slowly",
+    passiveName1: "",
     passive: "Iron Will: Immune to first hit from Warden and all knockback effects. Arsenal: Starts with 2 cursed traps and soul rifle (cannot be discarded).",
     ability: "Soul Shot: Fire spectral bullets at Warden from 2 spaces in straight line (2 shots total). Trap Master: Set cursed trap on current/adjacent space once per turn - stuns Warden when triggered.",
     drawback: "Burden of Sin: Needs extra move action to advance 1 space due to spiritual weight.",
@@ -143,10 +169,13 @@ export default function OutcastCharacters() {
           transition={{ duration: 0.6 }}
         >
           <h1 className="text-4xl lg:text-5xl font-bold bg-gradient-to-r from-emerald-300 to-emerald-500 bg-clip-text text-transparent">
-            Souls of the Cursed Realm
+            Outcasts' Characters
           </h1>
           <p className="text-xl text-gray-200 max-w-3xl mx-auto">
-            Each tormented soul bears unique curses and formidable powers. Only through dark cooperation can they hope to defy the Realm's grasp.
+            Reference to all characters that can be chosen as an outcast
+          </p>
+          <p className="text-xl text-gray-200 max-w-3xl mx-auto">
+            Each character has special ability, strength, and weakness
           </p>
         </motion.div>
 
@@ -185,7 +214,7 @@ export default function OutcastCharacters() {
                       </Badge>
                       <Badge className="bg-blue-500/20 text-blue-300 border-blue-400/30">
                         <Package className="w-3 h-3 mr-1" />
-                        {character.resources}R/{character.items}I
+                        {character.resources} Resource / {character.items} Items
                       </Badge>
                     </div>
                   </CardHeader>
@@ -211,12 +240,29 @@ export default function OutcastCharacters() {
                           >
                             <div className="flex items-center gap-2">
                               <Zap className="w-4 h-4 text-emerald-300" />
-                              <h4 className="font-semibold text-emerald-300">Passive Curses</h4>
+                              <h4 className="font-semibold text-emerald-300">Passive Trait - {character.passiveName1}</h4>
                             </div>
                             <p className="text-sm text-gray-200 leading-relaxed bg-gray-900/30 p-3 rounded-lg">
-                              {character.passive}
+                              {character.passive1}
                             </p>
                           </motion.div>
+
+                          {character.passive2 && 
+                           <motion.div
+                           className="space-y-2"
+                           initial={{ x: -20, opacity: 0 }}
+                           animate={{ x: 0, opacity: 1 }}
+                           transition={{ delay: 0.1 }}
+                          >
+                            <div className="flex items-center gap-2">
+                              <Zap className="w-4 h-4 text-emerald-300" />
+                              <h4 className="font-semibold text-emerald-300">Passive Trait - {character.passiveName2}</h4>
+                            </div>
+                            <p className="text-sm text-gray-200 leading-relaxed bg-gray-900/30 p-3 rounded-lg">
+                              {character.passive2}
+                            </p>
+                          </motion.div>
+                          }
 
                           <motion.div
                             className="space-y-2"
@@ -226,10 +272,13 @@ export default function OutcastCharacters() {
                           >
                             <div className="flex items-center gap-2">
                               <Users className="w-4 h-4 text-blue-300" />
-                              <h4 className="font-semibold text-blue-300">Active Powers</h4>
+                              <h4 className="font-semibold text-blue-300">Ability - {character.abilityName1}</h4>
                             </div>
                             <p className="text-sm text-gray-200 leading-relaxed bg-gray-900/30 p-3 rounded-lg">
-                              {character.ability}
+                              {character.ability1}
+                            </p>
+                            <p className="text-sm text-gray-200 leading-relaxed bg-gray-900/30 p-3 rounded-lg">
+                              CoolDown: {character.coolDown1} turns
                             </p>
                           </motion.div>
 
@@ -241,12 +290,29 @@ export default function OutcastCharacters() {
                           >
                             <div className="flex items-center gap-2">
                               <AlertTriangle className="w-4 h-4 text-red-300" />
-                              <h4 className="font-semibold text-red-300">Inherent Torments</h4>
+                              <h4 className="font-semibold text-red-300">Weakness - {character.drawbackName1}</h4>
                             </div>
                             <p className="text-sm text-gray-200 leading-relaxed bg-gray-900/30 p-3 rounded-lg">
-                              {character.drawback}
+                              {character.drawback1}
                             </p>
                           </motion.div>
+
+                          { character.drawbackName2 && 
+                            <motion.div
+                            className="space-y-2"
+                            initial={{ x: -20, opacity: 0 }}
+                            animate={{ x: 0, opacity: 1 }}
+                            transition={{ delay: 0.3 }}
+                            >
+                              <div className="flex items-center gap-2">
+                                <AlertTriangle className="w-4 h-4 text-red-300" />
+                                <h4 className="font-semibold text-red-300">Weakness - {character.drawbackName2}</h4>
+                              </div>
+                              <p className="text-sm text-gray-200 leading-relaxed bg-gray-900/30 p-3 rounded-lg">
+                                {character.drawback2}
+                              </p>
+                            </motion.div>
+                          }
                         </motion.div>
                       )}
                     </AnimatePresence>
@@ -301,6 +367,25 @@ export default function OutcastCharacters() {
                   </ul>
                 </div>
               </div>
+            </CardContent>
+          </Card>
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.8, duration: 0.6 }}
+        >
+          <Card className="bg-yellow-900/20 border-yellow-600/30 backdrop-blur-sm">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-3 text-2xl text-yellow-400">
+                <Info className="w-6 h-6" />
+                Next Step
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <p className="text-gray-300">
+                Now that you’ve learned what objectives need to be completed by the Outcasts in the game, you can move on to the <a href="/resourceItem"><span className="text-yellow-400 font-semibold">Resources & Items</span></a> section
+              </p>
             </CardContent>
           </Card>
         </motion.div>

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
     Book,
+    Pickaxe,
     Users,
     Shield,
     Target,
@@ -41,14 +42,14 @@ const navigationItems = [
         icon: Target,
     },
     {
+        title: "Resource & Item",
+        url: "/resourceItem",
+        icon: Pickaxe
+    },
+    {
         title: "Power & Evolution Card",
         url: "/card",
         icon: Sword,
-    },
-    {
-        title: "Setup Guide",
-        url: "/setup",
-        icon: Settings,
     },
     {
         title: "Outcast Characters",
@@ -59,6 +60,11 @@ const navigationItems = [
         title: "Warden Characters",
         url: "/wardenCharacters",
         icon: Shield,
+    },
+    {
+        title: "Setup Guide",
+        url: "/setup",
+        icon: Settings,
     }
 ];
 
