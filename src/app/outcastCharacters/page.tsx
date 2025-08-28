@@ -9,6 +9,7 @@ import {
   Users,
   Heart,
   Package,
+  SplinePointer,
   Zap,
   AlertTriangle,
   Hammer,
@@ -102,10 +103,20 @@ const characters = [
     resources: 1,
     items: 3,
     description: "An expert tracker who relies on hunting preys to survive. Have sharp shooting skills and good strength, but moves slowly",
-    passiveName1: "",
-    passive: "Iron Will: Immune to first hit from Warden and all knockback effects. Arsenal: Starts with 2 cursed traps and soul rifle (cannot be discarded).",
-    ability: "Soul Shot: Fire spectral bullets at Warden from 2 spaces in straight line (2 shots total). Trap Master: Set cursed trap on current/adjacent space once per turn - stuns Warden when triggered.",
-    drawback: "Burden of Sin: Needs extra move action to advance 1 space due to spiritual weight.",
+    defaultItemName1: "Hunting Rifle",
+    defaultItem1: "Hunter carries a hunting rifle at the start of the game with 2 bullets, this item cannot be given, exchanged, or discarded",
+    defaultItemName2: "Bear Trap",
+    defaultItem2: "Hunter carries 2 Special Traps at the start of the game. The traps can only be placed or discarded to free up spaces to hold additional items. The traps can be recollected only by the hunter.",
+    passiveName1: "Strength",
+    passive1: "Immune to the first damaged received and all knockback effects",
+    abilityName1: "Focused Shot",
+    ability1: "Fire a bullet from the rifle at Warden from 2 spaces in straight line. Cannot fire through objects, if an obstacle is in the way, the bullet destroys that object instead. On a clear hit, deals 1 HP damage to the Warden",
+    coolDown1: 2,
+    abilityName2: "Trap Master",
+    ability2: "Set one bear trap on currentor adjacent space, stuns Warden when triggered (Warden cannot move anymore in that turn).",
+    coolDown2: 2,
+    drawbackName1: "Slow Mover",
+    drawback1: "Hunter's strong body makes him move slower, he needs an extra move actions to move 1 space",
     color: "red",
   },
   {
@@ -114,10 +125,23 @@ const characters = [
     hp: 3,
     resources: 3,
     items: 1,
-    description: "A champion fighter whose spirit burns with unquenchable rage. Combat expertise makes them formidable, but protective instincts can be their downfall.",
-    passive: "Phoenix Spirit: When reduced to 0 HP, immediately regain +1 HP (once per game). Death's Dance: When at 1 HP or below, all damage to Warden is doubled.",
-    ability: "Soul Strike: Attack Warden in same space with spectral fists (Cooldown: 3 turns). Wraith Rush: Dash up to 2 spaces, knock back Warden 1 space, stun if hitting obstacle (Cooldown: 4 turns).",
-    drawback: "Guardian's Curse: Must move toward fallen allies until revived. Spiritual Exhaustion: Skip next turn after dealing 1+ damage to Warden in single turn.",
+    description: "A trained competitor who thrives on physical prowess and endurance. Years of combat training make him a formidable opponent against the Warden",
+    defaultItemName1: "Boxing Gloves",
+    defaultItem1: "Boxer carries a pair of Boxing Gloves which cannot be given, exchanged, or discarded",
+    passiveName1: "Second Wind",
+    passive1: "When reduced to 0 HP, he immediately regains +1 HP (once per game)",
+    passiveName2: "Last Dance",
+    passive2: "When at 1 HP or below, all damages dealt to the Warden are doubled",
+    abilityName1: "Heavy Strike",
+    ability1: "Perform an attack to the Warden in the same space with Boxing Gloves",
+    coolDown1: 3,
+    abilityName2: "Wraith Rush",
+    ability2: "The boxer can dash to a direction of up to 2 spaces. If the warden is hit on the way, then the warden will be knocked back 1 space. If there is an object behind the warden, then the warden will be stunned and cannot attack next turn. And the warden will take 1 HP damage",
+    coolDown2: 3,
+    drawbackName1: "Protective Instinct",
+    drawback1: "Must move toward an Oucast in coma until revived by the Boxer or other Outcasts. During the process, the boxer cannot perform any other actions other than Move or Wraith Rush Ability",
+    drawbackName2: "Overexertion",
+    drawback2: "After dealing more than 1 damage to the Warden in a single turn (via any ability), the Boxer becomes exhausted and cannot perform any actions in his next turn (basically skip his next turn)",
     color: "blue",
   },
   {
@@ -231,6 +255,37 @@ export default function OutcastCharacters() {
                           exit={{ opacity: 0, height: 0 }}
                           transition={{ duration: 0.3 }}
                         >
+                          {character.defaultItem1 && <motion.div
+                              className="space-y-2"
+                              initial={{ x: -20, opacity: 0 }}
+                              animate={{ x: 0, opacity: 1 }}
+                              transition={{ delay: 0.1 }}
+                            >
+                              <div className="flex items-center gap-2">
+                                <SplinePointer className="w-4 h-4 text-purple-300" />
+                                <h4 className="font-semibold text-purple-300">Default Item - {character.defaultItemName1}</h4>
+                              </div>
+                              <p className="text-sm text-gray-200 leading-relaxed bg-gray-900/30 p-3 rounded-lg">
+                                {character.defaultItem1}
+                              </p>
+                            </motion.div> 
+                          }
+                          
+                          {character.defaultItem2 && <motion.div
+                              className="space-y-2"
+                              initial={{ x: -20, opacity: 0 }}
+                              animate={{ x: 0, opacity: 1 }}
+                              transition={{ delay: 0.1 }}
+                            >
+                              <div className="flex items-center gap-2">
+                                <SplinePointer className="w-4 h-4 text-purple-300" />
+                                <h4 className="font-semibold text-purple-300">Default Item - {character.defaultItemName2}</h4>
+                              </div>
+                              <p className="text-sm text-gray-200 leading-relaxed bg-gray-900/30 p-3 rounded-lg">
+                                {character.defaultItem2}
+                              </p>
+                            </motion.div> 
+                          }
 
                           <motion.div
                             className="space-y-2"
@@ -277,10 +332,42 @@ export default function OutcastCharacters() {
                             <p className="text-sm text-gray-200 leading-relaxed bg-gray-900/30 p-3 rounded-lg">
                               {character.ability1}
                             </p>
+                            {character.name === 'Hunter' ?
+                            <p className="text-sm text-gray-200 leading-relaxed bg-gray-900/30 p-3 rounded-lg">
+                              Limit: {character.coolDown1} bullets
+                            </p> 
+                            : 
                             <p className="text-sm text-gray-200 leading-relaxed bg-gray-900/30 p-3 rounded-lg">
                               CoolDown: {character.coolDown1} turns
-                            </p>
+                            </p> 
+                            }
                           </motion.div>
+                          
+
+                          {character.ability2 && <motion.div
+                              className="space-y-2"
+                              initial={{ x: -20, opacity: 0 }}
+                              animate={{ x: 0, opacity: 1 }}
+                              transition={{ delay: 0.2 }}
+                              >
+                              <div className="flex items-center gap-2">
+                                <Users className="w-4 h-4 text-blue-300" />
+                                <h4 className="font-semibold text-blue-300">Ability - {character.abilityName2}</h4>
+                              </div>
+                              <p className="text-sm text-gray-200 leading-relaxed bg-gray-900/30 p-3 rounded-lg">
+                                {character.ability2}
+                              </p>
+                              {character.name === 'Hunter' ?
+                              <p className="text-sm text-gray-200 leading-relaxed bg-gray-900/30 p-3 rounded-lg">
+                                Limit: {character.coolDown2} traps
+                              </p> 
+                              : 
+                              <p className="text-sm text-gray-200 leading-relaxed bg-gray-900/30 p-3 rounded-lg">
+                                CoolDown: {character.coolDown2} turns
+                              </p> 
+                              }
+                            </motion.div>
+                          }
 
                           <motion.div
                             className="space-y-2"
