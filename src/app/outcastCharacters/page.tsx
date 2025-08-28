@@ -24,7 +24,7 @@ import {
 
 const characters = [
   {
-    name: "The Architect",
+    name: "Architect",
     icon: Hammer,
     hp: 2,
     resources: 4,
@@ -42,7 +42,7 @@ const characters = [
     color: "orange",
   },
   {
-    name: "The Trickster",
+    name: "Trickster",
     icon: Shuffle,
     hp: 2,
     resources: 2,
@@ -58,7 +58,7 @@ const characters = [
     color: "purple",
   },
   {
-    name: "The Medic",
+    name: "Medic",
     icon: Activity,
     hp: 2,
     resources: 3,
@@ -109,7 +109,7 @@ const characters = [
     color: "red",
   },
   {
-    name: "The Damned Boxer",
+    name: "Boxer",
     icon: Swords,
     hp: 3,
     resources: 3,
@@ -121,7 +121,7 @@ const characters = [
     color: "blue",
   },
   {
-    name: "The Mad Mechanic",
+    name: "Mechanic",
     icon: Wrench,
     hp: 2,
     resources: 2,
