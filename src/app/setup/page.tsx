@@ -19,13 +19,12 @@ const setupSteps = [
     step: 1,
     title: "Place 3D Objects",
     icon: Map,
-    description: "Set up the map with all terrain features and components",
+    description: "Set up the map with all components",
     details: [
       "Place wall components on designated spaces",
-      "Position 2 tower pieces on the map",
+      "Place 2 tower pieces on the map on designated spaces",
       "Place tunnel piece in designated location",
-      "Add bridge component area markers",
-      "Place resource markers throughout map",
+      "Place item markers throughout map",
       "Position 2 gate markers at exit points"
     ],
     color: "blue"
@@ -37,8 +36,8 @@ const setupSteps = [
     description: "Each player chooses their character and receives their player card",
     details: [
       "Outcasts pick from available characters",
-      "Each gets unique player card with abilities",
-      "Warden selects from 3 available Warden types",
+      "Warden picks from available characters",
+      "Each gets unique playercard",
       "All players familiarize with their abilities",
       "Set up character-specific starting items",
       "Note any special starting conditions"
@@ -52,11 +51,11 @@ const setupSteps = [
     description: "Players choose their starting positions following placement rules",
     details: [
       "Outcasts choose spawn locations first",
-      "Must be at least 3 spaces from each other",
-      "Split evenly across both sides of river (minimum floor(N/2))",
-      "Cannot spawn on marker locations",
+      "Must be at least 3 spaces away from each other",
+      "Split evenly across both sides of river (2 on both sides of the river)",
+      "Outcasts cannot spawn on item marker locations",
       "Warden spawns last, at least 3 spaces from any Outcast",
-      "Use suggested spawn points for balanced gameplay"
+      "Can use suggested spawn points for balanced gameplay"
     ],
     color: "purple"
   },
@@ -67,10 +66,8 @@ const setupSteps = [
     description: "Distribute objective cards and set up Warden abilities",
     details: [
       "Outcasts receive 10 objective cards",
-      "Warden draws 2 Warden cards, chooses 1 ability",
-      "Warden draws 2 objective cards for personal goals",
-      "Keep unused cards accessible for later draws",
-      "Set up evolution tracking for Warden",
+      "Warden draws 2 Power Cards, chooses 1 of them to keep",
+      "Warden draws 2 Evolution Cards for Upgrading abilities",
       "Prepare item discovery deck"
     ],
     color: "yellow"
@@ -108,7 +105,7 @@ export default function Setup() {
             Setup Guide
           </h1>
           <p className="text-xl text-gray-200 max-w-3xl mx-auto">
-            Follow these steps to set up your game of Shadowbreak. Proper setup ensures balanced and engaging gameplay.
+            Follow these steps to set up the game. Proper setup ensures balanced and engaging gameplay.
           </p>
         </motion.div>
 
@@ -232,21 +229,13 @@ export default function Setup() {
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="grid md:grid-cols-3 gap-6">
-                <div className="space-y-3">
-                  <h3 className="text-lg font-semibold text-white">Player Count</h3>
-                  <ul className="space-y-2 text-sm text-gray-200">
-                    <li>• <span className="text-green-300 font-semibold">2-3 players:</span> 1 Warden, 1-2 Outcasts</li>
-                    <li>• <span className="text-green-300 font-semibold">4-6 players:</span> 1 Warden, 3-5 Outcasts</li>
-                    <li>• <span className="text-green-300 font-semibold">7-8 players:</span> 1 Warden, 6-7 Outcasts</li>
-                  </ul>
-                </div>
+              <div className="grid md:grid-cols-2 gap-6">
                 <div className="space-y-3">
                   <h3 className="text-lg font-semibold text-white">Spawn Rules</h3>
                   <ul className="space-y-2 text-sm text-gray-200">
                     <li>• <span className="text-blue-300 font-semibold">Minimum distance:</span> 3 spaces between all players</li>
-                    <li>• <span className="text-blue-300 font-semibold">River split:</span> At least floor(N/2) on each side</li>
-                    <li>• <span className="text-blue-300 font-semibold">No markers:</span> Cannot spawn on item markers</li>
+                    <li>• <span className="text-blue-300 font-semibold">River split:</span> At least 2 Outcasts on each side of the river</li>
+                    <li>• <span className="text-blue-300 font-semibold">No markers:</span> Outcast cannot spawn on item marker space</li>
                   </ul>
                 </div>
                 <div className="space-y-3">
@@ -254,7 +243,7 @@ export default function Setup() {
                   <ul className="space-y-2 text-sm text-gray-200">
                     <li>• <span className="text-purple-300 font-semibold">Warden first:</span> Always goes first each round</li>
                     <li>• <span className="text-purple-300 font-semibold">Outcasts phases:</span> All complete phase 1, then phase 2, etc.</li>
-                    <li>• <span className="text-purple-300 font-semibold">Simultaneous:</span> Within phases, outcasts act together</li>
+                    <li>• <span className="text-purple-300 font-semibold">Simultaneous:</span> Within phases, Outcasts act together</li>
                   </ul>
                 </div>
               </div>
