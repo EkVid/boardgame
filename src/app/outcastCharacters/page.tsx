@@ -8,6 +8,8 @@ import { Badge } from "@/components/ui/badge";
 import {
   Users,
   Heart,
+  Bot,
+  Book,
   Package,
   SplinePointer,
   Zap,
@@ -48,7 +50,7 @@ const characters = [
     hp: 2,
     resources: 2,
     items: 2,
-    description: "A manipulator who thrives on deception and misdirection. Outcasts can never be fully sure whether he’s helping or just playing his own game",
+    description: "A manipulator who thrives on deception and misdirection. People can never be sure if he’s just playing his own game",
     passiveName1: "Misdirection",
     passive1: "Whenever the Trickster is attacked by the hunter, the hunter must flip a coin: on success, the attack hits as normal; on failure, the Trickster dodges ",
     abilityName1: "Switcheroo",
@@ -64,7 +66,7 @@ const characters = [
     hp: 2,
     resources: 3,
     items: 1,
-    description: "A trained professiontal who carries scraps of medical knowledge and supplies, but bad at fighting",
+    description: "A trained professiontal who carries scraps of medical knowledge and supplies, but cannot fight",
     passiveName1: "Healer",
     passive1: "All Outcasts can heal each other from 1 space away instead of in the same space",
     passiveName2: "Doctor",
@@ -74,8 +76,6 @@ const characters = [
     coolDown1: 2,
     drawbackName1: "Pacifist",
     drawback1: "Cannot carry offensive items or set traps",
-    drawbackName2: "Fragile Soul",
-    drawback2: "All damage from Warden has x1.25 effect",
     color: "green",
   },
   {
@@ -150,12 +150,29 @@ const characters = [
     hp: 2,
     resources: 2,
     items: 1,
-    description: "A brilliant inventor whose mind snapped in the prison realm. Can animate mechanical horrors to assist, but their creations demand constant attention.",
-    passive: "Efficient Restoration: All repair actions require 1 less material. Necromechanics: Can construct/control spectral robots (2 max per game, 8 total actions).",
-    ability: "Animate Construct: Create ghost robot on adjacent space. Construct has 1 HP, holds 1 resource/item, no special abilities. Can control even when unconscious. Limit: 2 robots, 8 total actions.",
-    drawback: "Obsessive Focus: Cannot move same turn Robot Control is used. Fractured Mind: All damage from Warden counts as 2x damage due to mental instability.",
+    description: "A hands-on tinkerer who excels at machines and gadgets. Can create a robotic companion to assist in objectives, but is fragile in combat",
+    defaultItemName1: "Controller",
+    defaultItem1: "The Mechanic has a controller that can create / control a robot that's created by him. Cannot be given, exchanged, and can only be discarded when the usage limit hits",
+    passiveName1: "Efficient Repairs",
+    passive1: "If the mechanic is in the game (not in coma or eliminated), then all repair actions require 1 less material",
+    abilityName1: "Robot Control",
+    ability1: "Mechanic constructs a robot piece on any adjacent space (not on river). The robot is basically like a normal outcast that has no ability or trait, it can be controlled based on the robot playcard. The mechanic can still control the robot even when he is in coma, and he can construct a 2nd robot if the first one is destroyed by the hunter",
+    drawbackName1: "Stationary Operator",
+    drawback1: "The mechanic cannot move on the same turn when Robot Control is used",
+    drawbackName2: "Fragile",
+    drawback2: "Any damage taken from the Warden will be doubled",
     color: "cyan",
-  }
+  },
+  {
+    name: "Robot",
+    icon: Bot, 
+    hp: 1,
+    resources: 1,
+    items: 1,
+    description: "A mechanical companion built by the Mechanic. It follows the Mechanic's commands but lacks autonomy and abilities",
+    desc: "The Robot is not a character that can be picked. It's created from the Mechanic's ability. It has no unique passive traits, abilities, or weaknesses of its own, but it can perform standard actions such as moving, building, repairing, combating, and assisting with objectives just like any other Outcast",
+    color: "gray",
+  }  
 ];
 
 const iconColors: Record<string, string> = {
@@ -255,6 +272,25 @@ export default function OutcastCharacters() {
                           exit={{ opacity: 0, height: 0 }}
                           transition={{ duration: 0.3 }}
                         >
+                          
+                          {character.desc && 
+                           <motion.div
+                           className="space-y-2"
+                           initial={{ x: -20, opacity: 0 }}
+                           animate={{ x: 0, opacity: 1 }}
+                           transition={{ delay: 0.1 }}
+                          >
+                            <div className="flex items-center gap-2">
+                              <Book className="w-4 h-4 text-purple-300" />
+                              <h4 className="font-semibold text-purple-300">Description</h4>
+                            </div>
+                            <p className="text-sm text-gray-200 leading-relaxed bg-gray-900/30 p-3 rounded-lg">
+                              {character.desc}
+                            </p>
+                          </motion.div>
+                          }
+
+
                           {character.defaultItem1 && <motion.div
                               className="space-y-2"
                               initial={{ x: -20, opacity: 0 }}
@@ -287,7 +323,7 @@ export default function OutcastCharacters() {
                             </motion.div> 
                           }
 
-                          <motion.div
+                          {character.passive1 && <motion.div
                             className="space-y-2"
                             initial={{ x: -20, opacity: 0 }}
                             animate={{ x: 0, opacity: 1 }}
@@ -301,6 +337,8 @@ export default function OutcastCharacters() {
                               {character.passive1}
                             </p>
                           </motion.div>
+                          }
+
 
                           {character.passive2 && 
                            <motion.div
@@ -319,7 +357,7 @@ export default function OutcastCharacters() {
                           </motion.div>
                           }
 
-                          <motion.div
+                          {character.ability1 && <motion.div
                             className="space-y-2"
                             initial={{ x: -20, opacity: 0 }}
                             animate={{ x: 0, opacity: 1 }}
@@ -337,12 +375,22 @@ export default function OutcastCharacters() {
                               Limit: {character.coolDown1} bullets
                             </p> 
                             : 
+                            character.name === 'Mechanic' ?
+                            <div>
+                              <p className="text-sm text-gray-200 leading-relaxed bg-gray-900/30 p-3 rounded-lg">
+                              Limit - 1 : Only 1 robot can be present and can construct a total of {character.coolDown1} robots in a game
+                              </p> 
+                              <p className="text-sm text-gray-200 leading-relaxed bg-gray-900/30 p-3 rounded-lg">
+                              Limit - 2: The total actions allowed are 8 actions. If the robot is still alive after 8 allowed actions, then it stays on the board but it cannot be controlled
+                              </p> 
+                            </div>
+                            : 
                             <p className="text-sm text-gray-200 leading-relaxed bg-gray-900/30 p-3 rounded-lg">
-                              CoolDown: {character.coolDown1} turns
+                             CoolDown: {character.coolDown1} turns
                             </p> 
                             }
                           </motion.div>
-                          
+                          }
 
                           {character.ability2 && <motion.div
                               className="space-y-2"
@@ -369,7 +417,7 @@ export default function OutcastCharacters() {
                             </motion.div>
                           }
 
-                          <motion.div
+                          {character.drawback1 && <motion.div
                             className="space-y-2"
                             initial={{ x: -20, opacity: 0 }}
                             animate={{ x: 0, opacity: 1 }}
@@ -383,6 +431,7 @@ export default function OutcastCharacters() {
                               {character.drawback1}
                             </p>
                           </motion.div>
+                          }
 
                           { character.drawbackName2 && 
                             <motion.div
@@ -420,43 +469,6 @@ export default function OutcastCharacters() {
           })}
         </div>
 
-        {/* Strategy Tips */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.8, duration: 0.6 }}
-        >
-          <Card className="bg-emerald-500/10 border-emerald-400/30">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-3 text-2xl text-emerald-300">
-                <Users className="w-6 h-6" />
-                Realm Survival Strategies
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="grid md:grid-cols-2 gap-6">
-                <div className="space-y-3">
-                  <h3 className="text-lg font-semibold text-white">Forbidden Synergies</h3>
-                  <ul className="space-y-2 text-sm text-gray-200">
-                    <li>• <span className="text-emerald-300 font-semibold">The Architect's dark craft:</span> Reduced construction costs aid the survival of all souls.</li>
-                    <li>• <span className="text-emerald-300 font-semibold">The Medic's forbidden healing:</span> Soul Mending from a distance keeps allies from succumbing.</li>
-                    <li>• <span className="text-emerald-300 font-semibold">The Hunter's vengeful aim:</span> Spectral shots and cursed traps provide protection and ward off horrors.</li>
-                    <li>• <span className="text-emerald-300 font-semibold">The Mechanic's vile constructs:</span> Spectral robots offer additional, albeit fragile, assistance.</li>
-                  </ul>
-                </div>
-                <div className="space-y-3">
-                  <h3 className="text-lg font-semibold text-white">Confronting the Curse</h3>
-                  <ul className="space-y-2 text-sm text-gray-200">
-                    <li>• <span className="text-red-300 font-semibold">Embrace the limitations:</span> Navigate the inherent curses of each soul.</li>
-                    <li>• <span className="text-red-300 font-semibold">Guard the fragile:</span> Shield those with weak spirits from the Warden's wrath.</li>
-                    <li>• <span className="text-red-300 font-semibold">Lend your strength:</span> Compensate for the spectral weaknesses of your companions.</li>
-                    <li>• <span className="text-red-300 font-semibold">Ponder the delays:</span> Coordinate actions around the temporal anomalies.</li>
-                  </ul>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </motion.div>
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
@@ -471,7 +483,7 @@ export default function OutcastCharacters() {
             </CardHeader>
             <CardContent className="space-y-3">
               <p className="text-gray-300">
-                Now that you’ve learned what objectives need to be completed by the Outcasts in the game, you can move on to the <a href="/resourceItem"><span className="text-yellow-400 font-semibold">Resources & Items</span></a> section
+                Now that you’ve seen what Outcasts' characters there are, you can move on to the <a href="/wardenCharacters"><span className="text-yellow-400 font-semibold">Warden's Character</span></a> section
               </p>
             </CardContent>
           </Card>
